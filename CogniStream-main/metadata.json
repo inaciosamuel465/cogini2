@@ -1,0 +1,8 @@
+{
+  "name": "CogniStream AI Analyst",
+  "description": "An advanced AI-powered system for intelligent audio/video analysis, transcription, translation, and strategic document generation.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}

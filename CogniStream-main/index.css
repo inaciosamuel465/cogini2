@@ -1,0 +1,135 @@
+:root {
+  --primary-color: #3b82f6;
+  /* Default */
+  --transition-speed: 0.3s;
+}
+
+/* Global Transitions */
+* {
+  transition: background-color var(--transition-speed), border-color var(--transition-speed), transform 0.1s;
+}
+
+/* UI Density Classes */
+.ui-compact {
+  font-size: 0.875rem;
+}
+
+.ui-compact .container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.ui-compact .p-6,
+.ui-compact .p-8,
+.ui-compact .p-10,
+.ui-compact .p-12 {
+  padding: 1rem !important;
+}
+
+.ui-compact h1 {
+  font-size: 2rem !important;
+}
+
+.ui-compact h2 {
+  font-size: 1.5rem !important;
+}
+
+.ui-compact h3 {
+  font-size: 1.25rem !important;
+}
+
+.ui-spacious {
+  font-size: 1.125rem;
+}
+
+.ui-spacious .container {
+  padding-left: 3rem;
+  padding-right: 3rem;
+  max-width: 1400px;
+}
+
+.ui-spacious .p-6,
+.ui-spacious .p-8,
+.ui-spacious .p-10,
+.ui-spacious .p-12 {
+  padding: 3rem !important;
+}
+
+.ui-spacious h1 {
+  font-size: 4.5rem !important;
+}
+
+.ui-spacious h2 {
+  font-size: 3rem !important;
+}
+
+.ui-spacious h3 {
+  font-size: 2rem !important;
+}
+
+/* No Animations Toggle */
+.no-animations *,
+.no-animations *:before,
+.no-animations *:after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Glassmorphism base */
+.glass {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-premium {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+/* --- MOBILE PWA APP OPTIMIZATIONS --- */
+html,
+body {
+  overscroll-behavior-y: none;
+  min-height: 100dvh;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  background: #020617;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Permitir seleção apenas em inputs e áreas de texto */
+input,
+textarea,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  user-select: text;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 10px;
+}
