@@ -23,6 +23,7 @@ import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { analyzeMedia } from './services/geminiService';
 import { useAuth } from './contexts/AuthContext';
 import { useSettings } from './contexts/SettingsContext';
+import AIConversationModal from './components/AIConversationModal';
 import { Bot, Briefcase, Sparkles, Globe, LayoutGrid, Zap, Layers, Menu, X, ArrowRight, FileText, History as HistoryIcon, LogIn, LogOut, User, Settings as SettingsIcon, Truck, Workflow, RefreshCw, CheckCircle, Trophy } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -40,6 +41,7 @@ const App: React.FC = () => {
   const { showToast } = useNotifications();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showTour, setShowTour] = useState(false);
+  const [showAIChat, setShowAIChat] = useState(false);
 
   useEffect(() => {
     const hasSeenTour = localStorage.getItem('cogni_tour_seen');
@@ -374,9 +376,29 @@ const App: React.FC = () => {
           onCancel={() => setIsRecording(false)}
         />
       )}
+
+      {/* Floating Assistant Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setShowAIChat(true)}
+          className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-blue-900/40 border border-white/10 group transition-all"
+        >
+          <Sparkles className="w-6 h-6 md:w-8 md:h-8 group-hover:animate-pulse" />
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-[#020617] animate-pulse"></div>
+        </motion.button>
+      </div>
+
+      <AnimatePresence>
+        {showAIChat && (
+          <AIConversationModal onClose={() => setShowAIChat(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
+
 
 const AppWrapper = () => (
   <NotificationProvider>

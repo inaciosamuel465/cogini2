@@ -64,7 +64,9 @@ export const analyzeMedia = async (
   apiKey?: string
 ): Promise<AnalysisResult> => {
 
-  const ai = new GoogleGenAI({ apiKey: apiKey || import.meta.env.VITE_GEMINI_API_KEY || "" });
+  const finalKey = (apiKey || import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_FIREBASE_API_KEY || "").trim();
+  if (!finalKey || finalKey.length < 10) throw new Error("Chave de API inválida ou ausente.");
+  const ai = new GoogleGenAI(finalKey);
   const isImage = file?.type?.startsWith('image');
   const modelId = useGrounding ? "gemini-1.5-pro" : "gemini-2.0-flash";
 
@@ -233,4 +235,42 @@ export const validateFile = (file: File): string | null => {
   if (!validTypes.includes(file.type)) return "Formato não suportado.";
   if (file.size > 150 * 1024 * 1024) return "Arquivo muito grande (máx 150MB).";
   return null;
+};
+
+export const chatWithAI = async (
+  messages: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }>,
+  systemInstruction: string = "Você é um assistente prestativo.",
+  apiKey?: string
+): Promise<string> => {
+  const envKey = (import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_FIREBASE_API_KEY || "").trim();
+  let finalKey = (apiKey || "").trim();
+
+  // Se a chave passada for muito curta ou inválida, usa a do ambiente
+  if (finalKey.length < 10) {
+    finalKey = envKey;
+  }
+
+  console.log("Gemini Auth Debug:", {
+    source: apiKey && apiKey.trim().length >= 10 ? "Manual/Settings" : "Environment (.env)",
+    keyPrefix: finalKey ? finalKey.substring(0, 7) + "..." : "EMPTY"
+  });
+
+  if (!finalKey || finalKey.length < 10) {
+    throw new Error("Chave de API do Gemini não encontrada ou inválida. Verifique o arquivo .env.");
+  }
+
+  const ai = new GoogleGenAI(finalKey);
+  const model = ai.getGenerativeModel({ 
+    model: "gemini-2.0-flash",
+    systemInstruction: systemInstruction
+  });
+
+  const chat = model.startChat({
+    history: messages.slice(0, -1), // All messages except the last one
+  });
+
+  const lastMessage = messages[messages.length - 1].parts[0].text;
+  const result = await chat.sendMessage(lastMessage);
+  const response = await result.response;
+  return response.text();
 };

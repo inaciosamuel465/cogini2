@@ -24,7 +24,7 @@ interface Props {
 
 // --- AVATAR COMPONENT ---
 interface AvatarProps {
-  state: 'idle' | 'listening' | 'processing' | 'speaking' | 'correcting';
+  state: 'idle' | 'listening' | 'processing' | 'speaking' | 'correcting' | 'thinking' | 'success';
   volume: number; // 0-100
   name?: string;
   isMini?: boolean;
@@ -47,38 +47,41 @@ const InstructorAvatar: React.FC<AvatarProps> = ({ state, volume, name = "Instru
   const isCorrecting = state === 'correcting';
   const isListening = state === 'listening';
   const isProcessing = state === 'processing';
+  const isThinking = state === 'thinking';
+  const isSuccess = state === 'success';
 
   const baseScale = isListening ? 1.05 : 1;
   const talkingScale = (isSpeaking || isCorrecting) ? 1 + (Math.max(0, smoothVol - 5) / 400) : baseScale;
 
   const themeColor =
+    isSuccess ? 'border-emerald-400 shadow-emerald-400/50' :
     isCorrecting ? 'border-amber-500 shadow-amber-500/50' :
-      isListening ? 'border-emerald-500 shadow-emerald-500/50' :
-        isProcessing ? 'border-indigo-500 shadow-indigo-500/50' :
-          isSpeaking ? 'border-blue-400 shadow-blue-400/50' :
-            'border-slate-600 shadow-none';
+    isListening ? 'border-emerald-500 shadow-emerald-500/50' :
+    (isProcessing || isThinking) ? 'border-blue-400 shadow-blue-400/50' :
+    isSpeaking ? 'border-blue-400 shadow-blue-400/50' :
+    'border-slate-600 shadow-none';
 
   return (
     <div className={`relative flex items-center justify-center transition-all duration-700 ${isMini ? 'w-32 h-32 md:w-40 md:h-40' : 'w-60 h-60 md:w-96 md:h-96'}`}>
-      <div className={`absolute inset-0 rounded-full blur-3xl transition-opacity duration-500 ${isListening ? 'bg-emerald-500/30 opacity-60' : isSpeaking ? 'bg-blue-500/30 opacity-50' : isCorrecting ? 'bg-amber-500/30 opacity-60' : isProcessing ? 'bg-indigo-500/30 opacity-40' : 'bg-transparent opacity-0'}`}></div>
-      <div className={`absolute inset-[-10px] md:inset-[-20px] rounded-full border border-slate-800/80 border-dashed transition-all duration-1000 ${isProcessing ? 'animate-spin-slow opacity-100' : 'opacity-30'}`}></div>
-      <div className={`absolute inset-0 rounded-full border transition-all duration-100 ${themeColor}`} style={{ opacity: (isSpeaking || isListening) ? 0.3 + (smoothVol / 100) : 0, transform: `scale(${1 + (smoothVol / 150)})` }}></div>
+      <div className={`absolute inset-0 rounded-full blur-3xl transition-opacity duration-500 ${isSuccess ? 'bg-emerald-400/40 opacity-70' : isListening ? 'bg-emerald-500/30 opacity-60' : isSpeaking ? 'bg-blue-500/30 opacity-50' : isCorrecting ? 'bg-amber-500/30 opacity-60' : (isProcessing || isThinking) ? 'bg-blue-500/30 opacity-40' : 'bg-transparent opacity-0'}`}></div>
+      <div className={`absolute inset-[-10px] md:inset-[-20px] rounded-full border border-slate-800/80 border-dashed transition-all duration-1000 ${(isProcessing || isThinking) ? 'animate-spin-slow opacity-100' : 'opacity-30'}`}></div>
+      <div className={`absolute inset-0 rounded-full border transition-all duration-100 ${themeColor}`} style={{ opacity: (isSpeaking || isListening || isSuccess) ? 0.3 + (smoothVol / 100) : 0, transform: `scale(${1 + (smoothVol / 150)})` }}></div>
       <div className={`relative rounded-full p-1.5 bg-gradient-to-b from-slate-800 to-slate-950 shadow-2xl z-10 transition-transform duration-300 ease-out ${isMini ? 'w-28 h-28 md:w-32 md:h-32' : 'w-52 h-52 md:w-80 md:h-80'}`} style={{ transform: `scale(${talkingScale})` }}>
         <div className="w-full h-full rounded-full overflow-hidden bg-slate-900 relative">
-          <img src="/sjl_avatar.png" alt="Sarah Jane" className={`w-full h-full object-contain pt-4 transition-all duration-700 ${isCorrecting ? 'sepia-[.3] contrast-125' : isListening ? 'scale-110 brightness-110' : 'scale-100'}`} />
-          <div className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isProcessing ? 'bg-indigo-900/60 opacity-100' : isListening ? 'bg-emerald-900/20 opacity-100' : 'opacity-0'}`}></div>
+          <img src="/sjl_avatar.png" alt="Sarah Jane" className={`w-full h-full object-contain pt-4 transition-all duration-700 ${isSuccess ? 'scale-110 brightness-125 saturate-150' : isCorrecting ? 'sepia-[.3] contrast-125' : isListening ? 'scale-110 brightness-110' : 'scale-100'}`} />
+          <div className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${(isProcessing || isThinking) ? 'bg-blue-900/40 opacity-100' : isListening ? 'bg-emerald-900/20 opacity-100' : isSuccess ? 'bg-emerald-400/20 opacity-100' : 'opacity-0'}`}></div>
         </div>
         <div className={`absolute inset-0 rounded-full border-[3px] transition-colors duration-500 ${themeColor.split(' ')[0]}`}></div>
         <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center shadow-lg z-20">
-          {isListening ? <Mic className="w-4 h-4 md:w-5 md:h-5 text-emerald-500 animate-pulse" /> : isProcessing ? <RefreshCw className="w-4 h-4 md:w-5 md:h-5 text-indigo-500 animate-spin" /> : isCorrecting ? <AlertCircle className="w-4 h-4 md:w-5 md:h-5 text-amber-500" /> : isSpeaking ? <Volume2 className="w-4 h-4 md:w-5 md:h-5 text-blue-500" /> : <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-slate-600"></div>}
+          {isSuccess ? <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-emerald-400 animate-bounce" /> : isListening ? <Mic className="w-4 h-4 md:w-5 md:h-5 text-emerald-500 animate-pulse" /> : (isProcessing || isThinking) ? <RefreshCw className="w-4 h-4 md:w-5 md:h-5 text-blue-500 animate-spin" /> : isCorrecting ? <AlertCircle className="w-4 h-4 md:w-5 md:h-5 text-amber-500" /> : isSpeaking ? <Volume2 className="w-4 h-4 md:w-5 md:h-5 text-blue-500" /> : <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-slate-600"></div>}
         </div>
       </div>
       <div className="absolute -bottom-8 md:-bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 w-max animate-fade-in">
         <div className="bg-slate-900/90 backdrop-blur-md px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-slate-700 flex items-center gap-2 md:gap-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-          <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-colors duration-300 ${isListening ? 'bg-emerald-500 animate-pulse' : isSpeaking ? 'bg-blue-500' : isProcessing ? 'bg-indigo-500' : isCorrecting ? 'bg-amber-500' : 'bg-slate-500'}`}></div>
+          <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-colors duration-300 ${isSuccess ? 'bg-emerald-400' : isListening ? 'bg-emerald-500 animate-pulse' : isSpeaking ? 'bg-blue-500' : (isProcessing || isThinking) ? 'bg-blue-500' : isCorrecting ? 'bg-amber-500' : 'bg-slate-500'}`}></div>
           <div className="flex flex-col leading-none">
             <span className="text-[10px] md:text-[11px] font-bold text-slate-200 uppercase tracking-widest">
-              {isCorrecting ? 'Correção em Andamento' : isSpeaking ? name : isListening ? 'Ouvindo Você...' : isProcessing ? 'Analisando...' : 'Online'}
+              {isSuccess ? 'Excelente!' : isCorrecting ? 'Correção em Andamento' : isSpeaking ? name : isListening ? 'Ouvindo Você...' : (isProcessing || isThinking) ? 'Analisando...' : 'Online'}
             </span>
           </div>
         </div>
@@ -338,6 +341,10 @@ const SJLLiveConversation: React.FC<Props> = ({ onClose, initialArea, initialLev
     }
     if (buffer.includes("PHRASE_APPROVED")) {
       setIsPhraseApproved(true);
+      setAvatarState('success');
+      setTimeout(() => {
+        if (!closeRef.current) setAvatarState('idle');
+      }, 3000);
       if (activePhraseIndex >= 0 && activePhraseIndex < sessionPhrases.length) {
         const id = sessionPhrases[activePhraseIndex].id;
         setAppState(prev => {
@@ -573,9 +580,11 @@ const SJLLiveConversation: React.FC<Props> = ({ onClose, initialArea, initialLev
 
     try {
       const apiKey = settings.geminiApiKey || import.meta.env.VITE_GEMINI_API_KEY || "";
+      console.log("Debug SJL - API Key Source:", settings.geminiApiKey ? "Settings" : import.meta.env.VITE_GEMINI_API_KEY ? "Env VITE_GEMINI" : "None");
+      
       if (!apiKey) throw new Error("Chave de API do Gemini não encontrada nas configurações.");
 
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = new GoogleGenAI(apiKey.trim());
       audioContextRef.current = new AudioContext({ sampleRate: 24000 });
       inputAudioContextRef.current = new AudioContext({ sampleRate: 16000 });
 
@@ -672,6 +681,9 @@ const SJLLiveConversation: React.FC<Props> = ({ onClose, initialArea, initialLev
         if (!isMuted && sessionRef.current && !closeRef.current && isSetupCompleteRef.current) {
           if (inputAudioContextRef.current?.state === 'suspended') {
             await inputAudioContextRef.current.resume();
+          }
+          if (audioContextRef.current?.state === 'suspended') {
+            await audioContextRef.current.resume();
           }
 
           const base64 = arrayBufferToBase64(float32ToInt16(e.inputBuffer.getChannelData(0)).buffer);
