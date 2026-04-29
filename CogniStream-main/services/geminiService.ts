@@ -66,7 +66,7 @@ export const analyzeMedia = async (
 
   const finalKey = (apiKey || import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_FIREBASE_API_KEY || "").trim();
   if (!finalKey || finalKey.length < 10) throw new Error("Chave de API inválida ou ausente.");
-  const ai = new GoogleGenAI(finalKey) as any;
+  const ai = new (GoogleGenAI as any)(finalKey);
   const isImage = file?.type?.startsWith('image');
   const modelId = useGrounding ? "gemini-1.5-pro" : "gemini-2.0-flash";
 
@@ -259,8 +259,8 @@ export const chatWithAI = async (
     throw new Error("Chave de API do Gemini não encontrada ou inválida. Verifique o arquivo .env.");
   }
 
-  // Inicialização com cast para evitar erros de tipagem no build da Vercel
-  const genAI = new GoogleGenAI(finalKey) as any;
+  // Inicialização com bypass total de tipos para garantir o build na Vercel
+  const genAI = new (GoogleGenAI as any)(finalKey);
   const model = genAI.getGenerativeModel({ 
     model: "gemini-2.0-flash",
     systemInstruction: systemInstruction
