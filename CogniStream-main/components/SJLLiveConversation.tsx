@@ -582,12 +582,22 @@ const SJLLiveConversation: React.FC<Props> = ({ onClose, initialArea, initialLev
       if (!apiKey) throw new Error("Chave de API do Gemini não encontrada nas configurações.");
 
       const sanitizedKey = apiKey.trim();
+      
+      // Injeção de Força Bruta para burlar o erro "API Key must be set"
+      if (typeof window !== 'undefined') {
+        (window as any).process = (window as any).process || { env: {} };
+        (window as any).process.env.GOOGLE_API_KEY = sanitizedKey;
+        (window as any).process.env.API_KEY = sanitizedKey;
+      }
+
       let ai: any;
       try {
         ai = new (GoogleGenAI as any)({ apiKey: sanitizedKey });
+        ai.apiKey = sanitizedKey;
         if (!ai.live) throw new Error();
       } catch (e) {
         ai = new (GoogleGenAI as any)(sanitizedKey);
+        if (ai) ai.apiKey = sanitizedKey;
       }
       audioContextRef.current = new AudioContext({ sampleRate: 24000 });
       inputAudioContextRef.current = new AudioContext({ sampleRate: 16000 });
