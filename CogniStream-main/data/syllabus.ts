@@ -46,16 +46,16 @@ export const INITIAL_PHRASES: Phrase[] = [
   { id: 'p9', type: 'sentence', moduleId: 'm1', level: 'Iniciante', portuguese: 'Você pode resumir os pontos principais?', english: 'Can you summarize the key points?', order: 9 },
   { id: 'p10', type: 'sentence', moduleId: 'm1', level: 'Iniciante', portuguese: 'Precisamos melhorar nosso desempenho.', english: 'We need to improve our performance.', order: 10 },
   // Básico
-  { id: 'p11', moduleId: 'm1', level: 'Básico', portuguese: 'Vamos discutir o orçamento.', english: "Let's discuss the budget.", order: 1 },
-  { id: 'p12', moduleId: 'm1', level: 'Básico', portuguese: 'Os resultados trimestrais são positivos.', english: 'The quarterly results are positive.', order: 2 },
-  { id: 'p13', moduleId: 'm1', level: 'Básico', portuguese: 'Precisamos alinhar nossas prioridades.', english: 'We must align our priorities.', order: 3 },
-  { id: 'p14', moduleId: 'm1', level: 'Básico', portuguese: 'Delegue tarefas de forma eficaz.', english: 'Delegate tasks effectively.', order: 4 },
-  { id: 'p15', moduleId: 'm1', level: 'Básico', portuguese: 'Dê feedback construtivo.', english: 'Provide constructive feedback.', order: 5 },
-  { id: 'p16', moduleId: 'm1', level: 'Básico', portuguese: 'Vamos revisar os itens de ação.', english: "Let's review the action items.", order: 6 },
-  { id: 'p17', moduleId: 'm1', level: 'Básico', portuguese: 'Precisamos gerenciar riscos.', english: 'We need to manage risks.', order: 7 },
-  { id: 'p18', moduleId: 'm1', level: 'Básico', portuguese: 'A equipe está motivada.', english: 'The team is motivated.', order: 8 },
-  { id: 'p19', moduleId: 'm1', level: 'Básico', portuguese: 'Vamos agendar um acompanhamento.', english: "Let's schedule a follow-up.", order: 9 },
-  { id: 'p20', moduleId: 'm1', level: 'Básico', portuguese: 'Alcançamos nossas metas.', english: 'We achieved our targets.', order: 10 },
+  { id: 'p11', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Vamos discutir o orçamento.', english: "Let's discuss the budget.", order: 1 },
+  { id: 'p12', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Os resultados trimestrais são positivos.', english: 'The quarterly results are positive.', order: 2 },
+  { id: 'p13', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Precisamos alinhar nossas prioridades.', english: 'We must align our priorities.', order: 3 },
+  { id: 'p14', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Delegue tarefas de forma eficaz.', english: 'Delegate tasks effectively.', order: 4 },
+  { id: 'p15', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Dê feedback construtivo.', english: 'Provide constructive feedback.', order: 5 },
+  { id: 'p16', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Vamos revisar os itens de ação.', english: "Let's review the action items.", order: 6 },
+  { id: 'p17', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Precisamos gerenciar riscos.', english: 'We need to manage risks.', order: 7 },
+  { id: 'p18', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'A equipe está motivada.', english: 'The team is motivated.', order: 8 },
+  { id: 'p19', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Vamos agendar um acompanhamento.', english: "Let's schedule a follow-up.", order: 9 },
+  { id: 'p20', type: 'sentence', moduleId: 'm1', level: 'Básico', portuguese: 'Alcançamos nossas metas.', english: 'We achieved our targets.', order: 10 },
 
   // Intermediário
   { id: 'p21', moduleId: 'm1', level: 'Intermediário', portuguese: 'Vamos agilizar o processo.', english: "Let's streamline the process.", order: 1 },
@@ -82,21 +82,21 @@ export const INITIAL_PHRASES: Phrase[] = [
   { id: 'p40', moduleId: 'm1', level: 'Avançado', portuguese: 'Incorpore princípios de liderança servidora.', english: 'Embody servant leadership principles.', order: 10 },
 
   // Executivo
-  { id: 'p41', moduleId: 'm1', level: 'Executivo', portuguese: 'Alavanque sinergias em todas as unidades de negócio.', english: 'Leverage synergies across all business units.', order: 1 },
-  { id: 'p42', moduleId: 'm1', level: 'Executivo', portuguese: 'Aumente o valor para o acionista por meio de decisões prudentes.', english: 'Enhance shareholder value through prudent decisions.', order: 2 },
-  { id: 'p43', moduleId: 'm1', level: 'Executivo', portuguese: 'Adapte-se a circunstâncias em mudança.', english: 'Adapt to changing circumstances.', order: 3 },
-  { id: 'p44', moduleId: 'm1', level: 'Executivo', portuguese: 'Aproveite oportunidades emergentes.', english: 'Seize emerging opportunities.', order: 4 },
-  { id: 'p45', moduleId: 'm1', level: 'Executivo', portuguese: 'Forje parcerias estratégicas para expansão de mercado.', english: 'Forge strategic partnerships for market expansion.', order: 5 },
-  { id: 'p46', moduleId: 'm1', level: 'Executivo', portuguese: 'Defenda iniciativas de diversidade, equidade e inclusão.', english: 'Champion diversity, equity, and inclusion initiatives.', order: 6 },
-  { id: 'p47', moduleId: 'm1', level: 'Executivo', portuguese: 'Garanta uma governança corporativa robusta e transparência.', english: 'Ensure robust corporate governance and transparency.', order: 7 },
-  { id: 'p48', moduleId: 'm1', level: 'Executivo', portuguese: 'Inspire confiança e lealdade entre as partes interessadas.', english: 'Inspire confidence and loyalty among stakeholders.', order: 8 },
-  { id: 'p49', moduleId: 'm1', level: 'Executivo', portuguese: 'Antecipe tendências do setor e pivote estrategicamente.', english: 'Anticipate industry trends and pivot strategically.', order: 9 },
-  { id: 'p50', moduleId: 'm1', level: 'Executivo', portuguese: 'Pense em novas estratégias.', english: 'Think about new strategies.', order: 10 },
+  { id: 'p41', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Alavanque sinergias em todas as unidades de negócio.', english: 'Leverage synergies across all business units.', order: 1 },
+  { id: 'p42', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Aumente o valor para o acionista por meio de decisões prudentes.', english: 'Enhance shareholder value through prudent decisions.', order: 2 },
+  { id: 'p43', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Adapte-se a circunstâncias em mudança.', english: 'Adapt to changing circumstances.', order: 3 },
+  { id: 'p44', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Aproveite oportunidades emergentes.', english: 'Seize emerging opportunities.', order: 4 },
+  { id: 'p45', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Forje parcerias estratégicas para expansão de mercado.', english: 'Forge strategic partnerships for market expansion.', order: 5 },
+  { id: 'p46', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Defenda iniciativas de diversidade, equidade e inclusão.', english: 'Champion diversity, equity, and inclusion initiatives.', order: 6 },
+  { id: 'p47', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Garanta uma governança corporativa robusta e transparência.', english: 'Ensure robust corporate governance and transparency.', order: 7 },
+  { id: 'p48', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Inspire confiança e lealdade entre as partes interessadas.', english: 'Inspire confidence and loyalty among stakeholders.', order: 8 },
+  { id: 'p49', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Antecipe tendências do setor e pivote estrategicamente.', english: 'Anticipate industry trends and pivot strategically.', order: 9 },
+  { id: 'p50', type: 'sentence', moduleId: 'm1', level: 'Executivo', portuguese: 'Pense em novas estratégias.', english: 'Think about new strategies.', order: 10 },
 
   // Vendas B2B
-  { id: 'p51', moduleId: 'm2', level: 'Iniciante', portuguese: 'Olá, aqui é [Seu Nome] da [Empresa].', english: 'Hello, this is [Your Name] from [Company].', order: 1 },
-  { id: 'p52', moduleId: 'm2', level: 'Iniciante', portuguese: 'Estou ligando para apresentar nossos serviços.', english: "I'm calling to introduce our services.", order: 2 },
-  { id: 'p61', moduleId: 'm2', level: 'Básico', portuguese: 'Nossos preços são competitivos.', english: 'Our pricing is competitive.', order: 1 },
+  { id: 'p51', type: 'sentence', moduleId: 'm2', level: 'Iniciante', portuguese: 'Olá, aqui é [Seu Nome] da [Empresa].', english: 'Hello, this is [Your Name] from [Company].', order: 1 },
+  { id: 'p52', type: 'sentence', moduleId: 'm2', level: 'Iniciante', portuguese: 'Estou ligando para apresentar nossos serviços.', english: "I'm calling to introduce our services.", order: 2 },
+  { id: 'p61', type: 'sentence', moduleId: 'm2', level: 'Básico', portuguese: 'Nossos preços são competitivos.', english: 'Our pricing is competitive.', order: 1 },
 ];
 
 export interface Scenario {
