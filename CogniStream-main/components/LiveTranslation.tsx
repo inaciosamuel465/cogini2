@@ -149,11 +149,17 @@ const LiveTranslation: React.FC<Props> = ({ onClose }) => {
 
     try {
       const apiKey = settings.geminiApiKey || import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_FIREBASE_API_KEY;
-      console.log("Debug Tradutor - API Key Source:", settings.geminiApiKey ? "Settings" : import.meta.env.VITE_GEMINI_API_KEY ? "Env VITE_GEMINI" : import.meta.env.VITE_FIREBASE_API_KEY ? "Env VITE_FIREBASE" : "None");
-      
       if (!apiKey) throw new Error("Aviso: Chave de API do Gemini não configurada no Admin ou ambiente.");
 
-      const ai = new GoogleGenAI(apiKey.trim());
+      const sanitizedKey = apiKey.trim();
+      let ai: any;
+      try {
+        ai = new (GoogleGenAI as any)({ apiKey: sanitizedKey });
+        // Verificação defensiva
+        if (!ai.live) throw new Error();
+      } catch (e) {
+        ai = new (GoogleGenAI as any)(sanitizedKey);
+      }
 
       // Audio Contexts
       audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });

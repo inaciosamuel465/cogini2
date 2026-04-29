@@ -579,12 +579,16 @@ const SJLLiveConversation: React.FC<Props> = ({ onClose, initialArea, initialLev
     commandBufferRef.current = "";
 
     try {
-      const apiKey = settings.geminiApiKey || import.meta.env.VITE_GEMINI_API_KEY || "";
-      console.log("Debug SJL - API Key Source:", settings.geminiApiKey ? "Settings" : import.meta.env.VITE_GEMINI_API_KEY ? "Env VITE_GEMINI" : "None");
-      
       if (!apiKey) throw new Error("Chave de API do Gemini não encontrada nas configurações.");
 
-      const ai = new GoogleGenAI(apiKey.trim());
+      const sanitizedKey = apiKey.trim();
+      let ai: any;
+      try {
+        ai = new (GoogleGenAI as any)({ apiKey: sanitizedKey });
+        if (!ai.live) throw new Error();
+      } catch (e) {
+        ai = new (GoogleGenAI as any)(sanitizedKey);
+      }
       audioContextRef.current = new AudioContext({ sampleRate: 24000 });
       inputAudioContextRef.current = new AudioContext({ sampleRate: 16000 });
 
