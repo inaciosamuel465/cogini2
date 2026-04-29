@@ -66,7 +66,14 @@ export const analyzeMedia = async (
 
   const finalKey = (apiKey || import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_FIREBASE_API_KEY || "").trim();
   if (!finalKey || finalKey.length < 10) throw new Error("Chave de API inválida ou ausente.");
-  const ai = new (GoogleGenAI as any)({ apiKey: finalKey });
+  
+  let ai: any;
+  try {
+    ai = new (GoogleGenAI as any)({ apiKey: finalKey });
+    if (typeof ai.models?.generateContent !== 'function' && typeof ai.getGenerativeModel !== 'function') throw new Error();
+  } catch (e) {
+    ai = new (GoogleGenAI as any)(finalKey);
+  }
   const isImage = file?.type?.startsWith('image');
   const modelId = useGrounding ? "gemini-1.5-pro" : "gemini-2.0-flash";
 
@@ -259,8 +266,19 @@ export const chatWithAI = async (
     throw new Error("Chave de API do Gemini não encontrada ou inválida. Verifique o arquivo .env.");
   }
 
-  // Inicialização no formato de objeto exigido estritamente pelo SDK no navegador
-  const genAI = new (GoogleGenAI as any)({ apiKey: finalKey });
+  // Inicialização universal para evitar erros de versão/tipo no navegador
+  let genAI: any;
+  try {
+    // Tenta formato de objeto (padrão produção)
+    genAI = new (GoogleGenAI as any)({ apiKey: finalKey });
+    if (typeof genAI.getGenerativeModel !== 'function') {
+      throw new Error();
+    }
+  } catch (e) {
+    // Fallback para formato de string (padrão legado/específico)
+    genAI = new (GoogleGenAI as any)(finalKey);
+  }
+
   const model = genAI.getGenerativeModel({ 
     model: "gemini-2.0-flash",
     systemInstruction: systemInstruction
